@@ -7,16 +7,6 @@ import (
 	"os"
 )
 
-type Mux map[string]http.HandlerFunc
-
-func (m Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if h, ok := m[r.URL.Path]; ok {
-		h(w, r)
-		return
-	}
-	http.NotFound(w, r)
-}
-
 func runServer() {
 	host := os.Getenv("HOST")
 	if host == "" {
@@ -30,10 +20,8 @@ func runServer() {
 
 	addr := host + ":" + port
 
-	mux := Mux{
-		"/":        handler.Index(),
-		"/static/": handler.StaticHandler(),
-	}
+	mux := http.NewServeMux()
+	handler.RegisterRoutes(mux)
 
 	fmt.Printf("listening on %s\n", addr)
 

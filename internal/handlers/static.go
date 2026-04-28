@@ -4,13 +4,11 @@ import (
 	"net/http"
 )
 
-func Index() http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
-	}
+func RegisterRoutes(mux *http.ServeMux) {
+	mux.HandleFunc("GET /{$}", index)
+	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
 }
 
-func StaticHandler() http.HandlerFunc {
-	fs := http.StripPrefix("/static/", http.FileServer(http.Dir("./static")))
-	return fs.ServeHTTP
+func index(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "static/index.html")
 }
