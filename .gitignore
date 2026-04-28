@@ -1,0 +1,12 @@
+.obsidian/
+backup/
+cache/
+build/
+data/
+tmp/
+node_modules/
+
+*~
+*.db
+.js
+secret*

@@ -1,0 +1,6 @@
+root = "."
+tmp_dir = "build"
+[build]
+  cmd = "go build -o build ./cmd/myapp"
+  bin = "./build/myapp"
+  full_bin = "./build/myapp serve"
