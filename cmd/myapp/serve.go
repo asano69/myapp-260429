@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"myapp/internal/handlers"
+	"myapp/internal/handler"
 	"net/http"
 	"os"
 )

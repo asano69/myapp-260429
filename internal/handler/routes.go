@@ -1,8 +1,6 @@
 package handler
 
-import (
-	"net/http"
-)
+import "net/http"
 
 func RegisterRoutes(mux *http.ServeMux) {
 	mux.HandleFunc("GET /{$}", index)
@@ -10,5 +8,5 @@ func RegisterRoutes(mux *http.ServeMux) {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "static/index.html")
+	renderTemplate(w, "index.tmpl", nil)
 }
