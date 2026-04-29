@@ -5,13 +5,10 @@
 
     <div id="message"></div>
 		<form x-data="{ preview: '' }"
-		          hx-post="/items/new"
-		          hx-encoding="multipart/form-data"
-		          hx-target="#message"
-		          hx-on::after-request="if(event.detail.successful) { this.reset(); this.dispatchEvent(new Event('item-saved')) }"
-		          @item-saved="preview = ''">
-
-
+		      hx-post="/items/new"
+		      hx-encoding="multipart/form-data"
+		      hx-target="#message"
+		      @htmx:after-request="if ($event.detail.successful) { $el.reset(); preview = '' }">
       <label for="date">
         Date
         <input type="date" id="date" name="date" required />
