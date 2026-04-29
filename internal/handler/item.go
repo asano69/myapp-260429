@@ -20,7 +20,7 @@ func newItem(db *sql.DB) http.HandlerFunc {
 		renderTemplate(w, "item_new.html", nil)
 	}
 }
-func createItem(db *sql.DB) http.HandlerFunc {
+func createItem(db *sql.DB, dataDir string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseMultipartForm(maxUploadSize); err != nil {
 			http.Error(w, "file too large", http.StatusBadRequest)
@@ -46,7 +46,7 @@ func createItem(db *sql.DB) http.HandlerFunc {
 			defer file.Close()
 
 			filename := fmt.Sprintf("%d_%s", time.Now().UnixNano(), filepath.Base(header.Filename))
-			dst := filepath.Join("data", "img", filename)
+			dst := filepath.Join(dataDir, "img", filename)
 
 			if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
 				http.Error(w, "failed to create upload directory", http.StatusInternalServerError)
@@ -65,7 +65,7 @@ func createItem(db *sql.DB) http.HandlerFunc {
 				return
 			}
 
-			item.Image = "/data/img/" + filename
+			item.Image = "/img/" + filename
 		}
 
 		if err := store.Save(db, item); err != nil {
