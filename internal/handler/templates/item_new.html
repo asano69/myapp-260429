@@ -8,7 +8,9 @@
 		          hx-post="/items/new"
 		          hx-encoding="multipart/form-data"
 		          hx-target="#message"
-		          hx-on::after-request="if(event.detail.successful) { this.reset(); preview = '' }">
+		          hx-on::after-request="if(event.detail.successful) { this.reset(); this.dispatchEvent(new Event('item-saved')) }"
+		          @item-saved="preview = ''">
+
 
       <label for="date">
         Date
