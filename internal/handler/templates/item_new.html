@@ -1,4 +1,3 @@
-<!doctype html>
 {{ define "title" }}Home{{ end }}
 
 {{ define "content" }}
@@ -29,29 +28,15 @@
           <input type="number" id="rating" name="rating" min="1" max="5" required />
         </label>
 
-        <label for="image">
-          Image
-          <input type="file" id="image" name="image" accept="image/*" />
-        </label>
-
-        <img id="preview" src="" alt="" style="display:none; max-width:300px; margin-top:0.5rem;" />
+        <div x-data="{ preview: '' }">
+          <label for="image">
+            Image
+            <input type="file" id="image" name="image" accept="image/*"
+              @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : ''">
+          </label>
+          <img :src="preview" x-show="preview" style="max-width:300px; margin-top:0.5rem;" alt="">
+        </div>
 
         <button type="submit">Save</button>
       </form>
-
-{{ end }}
-{{ define "scripts" }}
-    <script>
-      // Show a preview of the selected image before submission.
-      document.getElementById("image").addEventListener("change", function () {
-        const preview = document.getElementById("preview");
-        const file = this.files[0];
-        if (!file) {
-          preview.style.display = "none";
-          return;
-        }
-        preview.src = URL.createObjectURL(file);
-        preview.style.display = "block";
-      });
-    </script>
 {{ end }}

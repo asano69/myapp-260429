@@ -9,10 +9,13 @@ import (
 //go:embed templates/*.html
 var templateFS embed.FS
 
-var tmpl = template.Must(template.ParseFS(templateFS, "templates/*.html"))
-
 func renderTemplate(w http.ResponseWriter, name string, data any) {
-	if err := tmpl.ExecuteTemplate(w, name, data); err != nil {
-		http.Error(w, "template error", http.StatusInternalServerError)
+	tmpl, err := template.ParseFS(templateFS, "templates/base.html", "templates/"+name)
+	if err != nil {
+		http.Error(w, "template error: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if err := tmpl.ExecuteTemplate(w, "base", data); err != nil {
+		http.Error(w, "template error: "+err.Error(), http.StatusInternalServerError)
 	}
 }
