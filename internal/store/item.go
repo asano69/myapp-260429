@@ -7,7 +7,7 @@ type Item struct {
 	Title   string
 	Comment string
 	Rating  int
-	Image   string // URL path, e.g. "/static/img/filename.jpg"
+	Image   string // URL path, e.g. "/img/filename.jpg"
 }
 
 // Save inserts an item into the database.

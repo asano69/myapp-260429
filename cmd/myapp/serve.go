@@ -6,6 +6,7 @@ import (
 	"myapp/internal/handler"
 	"net/http"
 	"os"
+	"path/filepath"
 )
 
 func runServer() {
@@ -19,7 +20,12 @@ func runServer() {
 		port = "8080"
 	}
 
-	database, err := db.Open("data/sqlite3.db")
+	dataDir := os.Getenv("DATA")
+	if dataDir == "" {
+		dataDir = "data"
+	}
+
+	database, err := db.Open(filepath.Join(dataDir, "sqlite3.db"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "db error: %v\n", err)
 		os.Exit(1)
@@ -28,7 +34,7 @@ func runServer() {
 
 	addr := host + ":" + port
 	mux := http.NewServeMux()
-	handler.RegisterRoutes(mux, database)
+	handler.RegisterRoutes(mux, database, dataDir)
 
 	fmt.Printf("listening on %s\n", addr)
 

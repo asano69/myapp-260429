@@ -46,7 +46,7 @@ func createItem(db *sql.DB) http.HandlerFunc {
 			defer file.Close()
 
 			filename := fmt.Sprintf("%d_%s", time.Now().UnixNano(), filepath.Base(header.Filename))
-			dst := filepath.Join("static", "img", filename)
+			dst := filepath.Join("data", "img", filename)
 
 			if err := os.MkdirAll(filepath.Dir(dst), 0755); err != nil {
 				http.Error(w, "failed to create upload directory", http.StatusInternalServerError)
@@ -65,7 +65,7 @@ func createItem(db *sql.DB) http.HandlerFunc {
 				return
 			}
 
-			item.Image = "/static/img/" + filename
+			item.Image = "/data/img/" + filename
 		}
 
 		if err := store.Save(db, item); err != nil {
