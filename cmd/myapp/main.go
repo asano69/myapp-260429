@@ -6,9 +6,17 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 2 || os.Args[1] != "serve" {
-		fmt.Fprintln(os.Stderr, "usage: myapp serve")
+	if len(os.Args) < 2 {
+		fmt.Fprintln(os.Stderr, "usage: myapp <command>")
+		fmt.Fprintln(os.Stderr, "commands: serve")
 		os.Exit(1)
 	}
-	runServer()
+
+	switch os.Args[1] {
+	case "serve":
+		runServer()
+	default:
+		fmt.Fprintf(os.Stderr, "unknown command: %s\n", os.Args[1])
+		os.Exit(1)
+	}
 }
