@@ -1,14 +1,8 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="/static/css/pico.min.css" />
-    <title>New Item</title>
-  </head>
-  <body>
-    <main class="container">
-      <h1>New Item</h1>
+{{ define "title" }}Home{{ end }}
+
+{{ define "content" }}
+    <h1>New Item</h1>
 
       {{if .Created}}
       <article>Item saved successfully.</article>
@@ -44,8 +38,9 @@
 
         <button type="submit">Save</button>
       </form>
-    </main>
 
+{{ end }}
+{{ define "scripts" }}
     <script>
       // Show a preview of the selected image before submission.
       document.getElementById("image").addEventListener("change", function () {
@@ -59,5 +54,4 @@
         preview.style.display = "block";
       });
     </script>
-  </body>
-</html>
+{{ end }}

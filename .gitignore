@@ -3,7 +3,7 @@ backup/
 cache/
 build/
 data/
-
+img/
 tmp/
 node_modules/
 
