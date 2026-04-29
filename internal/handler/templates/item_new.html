@@ -4,11 +4,12 @@
     <h1>New Item</h1>
 
     <div id="message"></div>
+		<form x-data="{ preview: '' }"
+		          hx-post="/items/new"
+		          hx-encoding="multipart/form-data"
+		          hx-target="#message"
+		          hx-on::after-request="if(event.detail.successful) { this.reset(); preview = '' }">
 
-    <form hx-post="/items/new"
-          hx-encoding="multipart/form-data"
-          hx-target="#message"
-          hx-on::after-request="if(event.detail.successful) { this.reset(); preview = '' }">
       <label for="date">
         Date
         <input type="date" id="date" name="date" required />
@@ -29,7 +30,7 @@
         <input type="number" id="rating" name="rating" min="1" max="5" required />
       </label>
 
-      <div x-data="{ preview: '' }">
+      <div>
        <label for="image">
 				    Image
 				    <input type="file" id="image" name="image" accept="image/*"
