@@ -5,8 +5,10 @@
 
     <div id="message"></div>
 
-    <form hx-post="/items/new" hx-target="#message"
-          hx-on::after-request="if(event.detail.successful) this.reset()">
+    <form hx-post="/items/new"
+          hx-encoding="multipart/form-data"
+          hx-target="#message"
+          hx-on::after-request="if(event.detail.successful) { this.reset(); preview = '' }">
       <label for="date">
         Date
         <input type="date" id="date" name="date" required />
@@ -28,12 +30,12 @@
       </label>
 
       <div x-data="{ preview: '' }">
-        <label for="image">
-          Image
-          <input type="file" id="image" name="image" accept="image/*"
-            @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : ''">
-        </label>
-        <img :src="preview" x-show="preview" style="max-width:300px; margin-top:0.5rem;" alt="">
+       <label for="image">
+				    Image
+				    <input type="file" id="image" name="image" accept="image/*"
+				      @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : ''">
+				  </label>
+				  <img :src="preview" x-show="preview" style="max-width:300px; margin-top:0.5rem;" alt="">
       </div>
 
       <button type="submit">Save</button>
