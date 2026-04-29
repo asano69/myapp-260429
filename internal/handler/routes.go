@@ -1,12 +1,13 @@
 package handler
 
-import "net/http"
+import (
+	"database/sql"
+	"net/http"
+)
 
-func RegisterRoutes(mux *http.ServeMux) {
+func RegisterRoutes(mux *http.ServeMux, db *sql.DB) {
 	mux.HandleFunc("GET /{$}", index)
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static"))))
-}
-
-func index(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "index.tmpl", nil)
+	mux.HandleFunc("GET /items/new", newItem(db))
+	mux.HandleFunc("POST /items/new", createItem(db))
 }

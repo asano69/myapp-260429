@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"myapp/internal/db"
 	"myapp/internal/handler"
 	"net/http"
 	"os"
@@ -18,10 +19,16 @@ func runServer() {
 		port = "8080"
 	}
 
-	addr := host + ":" + port
+	database, err := db.Open("data/sqlite3.db")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "db error: %v\n", err)
+		os.Exit(1)
+	}
+	defer database.Close()
 
+	addr := host + ":" + port
 	mux := http.NewServeMux()
-	handler.RegisterRoutes(mux)
+	handler.RegisterRoutes(mux, database)
 
 	fmt.Printf("listening on %s\n", addr)
 

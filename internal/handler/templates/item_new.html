@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/static/css/pico.min.css" />
+    <title>New Item</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>New Item</h1>
+
+      {{if .Created}}
+      <article>Item saved successfully.</article>
+      {{end}}
+
+      <form method="post" enctype="multipart/form-data">
+        <label for="date">
+          Date
+          <input type="date" id="date" name="date" required />
+        </label>
+
+        <label for="title">
+          Title
+          <input type="text" id="title" name="title" required />
+        </label>
+
+        <label for="comment">
+          Comment
+          <textarea id="comment" name="comment" rows="4"></textarea>
+        </label>
+
+        <label for="rating">
+          Rating (1–5)
+          <input type="number" id="rating" name="rating" min="1" max="5" required />
+        </label>
+
+        <label for="image">
+          Image
+          <input type="file" id="image" name="image" accept="image/*" />
+        </label>
+
+        <img id="preview" src="" alt="" style="display:none; max-width:300px; margin-top:0.5rem;" />
+
+        <button type="submit">Save</button>
+      </form>
+    </main>
+
+    <script>
+      // Show a preview of the selected image before submission.
+      document.getElementById("image").addEventListener("change", function () {
+        const preview = document.getElementById("preview");
+        const file = this.files[0];
+        if (!file) {
+          preview.style.display = "none";
+          return;
+        }
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = "block";
+      });
+    </script>
+  </body>
+</html>
