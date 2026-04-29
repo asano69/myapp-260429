@@ -9,7 +9,12 @@
   <title>{{ block "title" . }}Default Title{{ end }}</title>
 </head>
 <body>
-  <header></header>
+  <header class="container">
+    <div class="grid">
+	    <a href="/" role="button">Home</a>
+	    <a href="/items/new" role="button">New</a>
+    <div>
+  </header>
   <main class="container">
   	{{ block "content" . }}{{ end }}
   </main>
