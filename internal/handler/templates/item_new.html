@@ -1,42 +1,41 @@
-{{ define "title" }}Home{{ end }}
+{{ define "title" }}New Item{{ end }}
 
 {{ define "content" }}
     <h1>New Item</h1>
 
-      {{if .Created}}
-      <article>Item saved successfully.</article>
-      {{end}}
+    <div id="message"></div>
 
-      <form method="post" enctype="multipart/form-data">
-        <label for="date">
-          Date
-          <input type="date" id="date" name="date" required />
+    <form hx-post="/items/new" hx-target="#message"
+          hx-on::after-request="if(event.detail.successful) this.reset()">
+      <label for="date">
+        Date
+        <input type="date" id="date" name="date" required />
+      </label>
+
+      <label for="title">
+        Title
+        <input type="text" id="title" name="title" required />
+      </label>
+
+      <label for="comment">
+        Comment
+        <textarea id="comment" name="comment" rows="4"></textarea>
+      </label>
+
+      <label for="rating">
+        Rating (1–5)
+        <input type="number" id="rating" name="rating" min="1" max="5" required />
+      </label>
+
+      <div x-data="{ preview: '' }">
+        <label for="image">
+          Image
+          <input type="file" id="image" name="image" accept="image/*"
+            @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : ''">
         </label>
+        <img :src="preview" x-show="preview" style="max-width:300px; margin-top:0.5rem;" alt="">
+      </div>
 
-        <label for="title">
-          Title
-          <input type="text" id="title" name="title" required />
-        </label>
-
-        <label for="comment">
-          Comment
-          <textarea id="comment" name="comment" rows="4"></textarea>
-        </label>
-
-        <label for="rating">
-          Rating (1–5)
-          <input type="number" id="rating" name="rating" min="1" max="5" required />
-        </label>
-
-        <div x-data="{ preview: '' }">
-          <label for="image">
-            Image
-            <input type="file" id="image" name="image" accept="image/*"
-              @change="preview = $event.target.files[0] ? URL.createObjectURL($event.target.files[0]) : ''">
-          </label>
-          <img :src="preview" x-show="preview" style="max-width:300px; margin-top:0.5rem;" alt="">
-        </div>
-
-        <button type="submit">Save</button>
-      </form>
+      <button type="submit">Save</button>
+    </form>
 {{ end }}

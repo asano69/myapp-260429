@@ -17,12 +17,9 @@ const maxUploadSize = 10 << 20 // 10MB
 
 func newItem(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "item_new.html", map[string]any{
-			"Created": r.URL.Query().Get("created") == "1",
-		})
+		renderTemplate(w, "item_new.html", nil)
 	}
 }
-
 func createItem(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if err := r.ParseMultipartForm(maxUploadSize); err != nil {
@@ -76,7 +73,7 @@ func createItem(db *sql.DB) http.HandlerFunc {
 			return
 		}
 
-		// Redirect to avoid duplicate submission on refresh (PRG pattern).
-		http.Redirect(w, r, "/items/new?created=1", http.StatusSeeOther)
+		fmt.Fprint(w, `<article>Item saved successfully.</article>`)
+
 	}
 }
