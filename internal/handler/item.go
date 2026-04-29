@@ -17,7 +17,7 @@ const maxUploadSize = 10 << 20 // 10MB
 
 func newItem(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		renderTemplate(w, "item_new.tmpl", map[string]any{
+		renderTemplate(w, "item_new.html", map[string]any{
 			"Created": r.URL.Query().Get("created") == "1",
 		})
 	}
