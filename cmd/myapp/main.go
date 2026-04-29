@@ -1,29 +1,14 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"os"
-
-	"github.com/urfave/cli/v3"
 )
 
 func main() {
-	app := &cli.Command{
-		Name: "myapp",
-		Commands: []*cli.Command{
-			{
-				Name: "serve",
-				Action: func(ctx context.Context, c *cli.Command) error {
-					runServer()
-					return nil
-				},
-			},
-		},
-	}
-
-	if err := app.Run(context.Background(), os.Args); err != nil {
-		fmt.Fprintln(os.Stderr, err)
+	if len(os.Args) < 2 || os.Args[1] != "serve" {
+		fmt.Fprintln(os.Stderr, "usage: myapp serve")
 		os.Exit(1)
 	}
+	runServer()
 }

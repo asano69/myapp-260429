@@ -2,10 +2,7 @@ module myapp
 
 go 1.25.7
 
-require (
-	github.com/urfave/cli/v3 v3.8.0
-	modernc.org/sqlite v1.50.0
-)
+require modernc.org/sqlite v1.50.0
 
 require (
 	github.com/dustin/go-humanize v1.0.1 // indirect
